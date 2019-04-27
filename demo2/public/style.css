@@ -1,0 +1,11 @@
+.tab_title{
+    text-align: center;
+    height: 60px;
+    line-height: 44px;
+    font-size: 24px;
+    font-weight: bold;
+}
+.table-hover tr{
+    text-align: center;
+    font-size: 20px
+}
