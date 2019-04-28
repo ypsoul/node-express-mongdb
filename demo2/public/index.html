@@ -1,66 +1,86 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
-    />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <link rel="stylesheet" href="./bootstrap.css" />
-    <link rel="stylesheet" href="./style.css" />
-    <title>Document</title>
-  </head>
-  <body>
-    <div class="container-fluid">
-      <table class="table table-hover">
-        <thead>
-          <caption class="tab_title">
-            标题
-          </caption>
-        </thead>
-        <tr>
-          <td>编号</td>
-          <td>书名</td>
-          <td>作者</td>
-          <td>出版时间</td>
-          <td>外借</td>
-          <td>编辑</td>
-        </tr>
-        <tr>
-          <td>1</td>
-          <td>亚历山大</td>
-          <td>yp</td>
-          <td>2019-10-10</td>
-          <td>false</td>
-          <td>
-            <button>更新</button>
-            <button>编辑</button>
-          </td>
-        </tr>
-        <tr>
-          <td>1</td>
-          <td>亚历山大</td>
-          <td>yp</td>
-          <td>2019-10-10</td>
-          <td>false</td>
-          <td>
-            <button>更新</button>
-            <button>编辑</button>
-          </td>
-        </tr>
-        <tr>
-          <td>1</td>
-          <td>亚历山大</td>
-          <td>yp</td>
-          <td>2019-10-10</td>
-          <td>false</td>
-          <td>
-            <button>更新</button>
-            <button>编辑</button>
-          </td>
-        </tr>
-      </table>
-    </div>
-  </body>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <link rel="stylesheet" href="./bootstrap.css" />
+  <link rel="stylesheet" href="./style.css" />
+  <title>Document</title>
+</head>
+
+<body>
+  <div class="container-fluid">
+    <table class="table table-hover">
+      <thead>
+        <caption class="tab_title">
+          标题    ---添加和删除在同一页，x  F5刷新一下 // 书名唯一
+        </caption>
+      </thead>
+      <tr>
+        <form action="/add">
+          <td>书名：<input type="text" name="bookeName"></td>
+          <td>作者：<input type="text" name="auther"></td>
+          <td>出版日期：<input type="text" name="publicationDate"></td>
+          <td><button type="submit">增加</button></td>
+        </form>
+      </tr>
+      <tr>
+        <td>编号</td>
+        <td>书名</td>
+        <td>作者</td>
+        <td>出版时间</td>
+        <td>外借</td>
+        <td>编辑</td>
+      </tr>
+      {{each docs}}
+      <tr>
+        <td>
+          {{$value.id}}
+        </td>
+        <td>
+          {{$value.bookeName}}
+        </td>
+        <td>
+          {{$value.author}}
+        </td>
+        <td>
+          {{$value.publicationDate}}
+        </td>
+        <td>
+          {{$value.lend}}
+        </td>
+        <td>
+          <button data-id="{{$value.id}}" class="li1">编辑</button>
+          <button data-id="{{$value.id}}" class="li2">删除</button>
+        </td>
+      </tr>
+      {{/each}}
+    </table>
+  </div>
+
+  <script>
+        var lis1 = document.getElementsByClassName("li1");
+    for (var i = 0; i < lis1.length; i++) {
+      (function (n) {
+        lis1[i].onclick = function () {
+          window.location ='/uphtml/'+ this.getAttribute("data-id")
+        }
+      })(i)
+    }
+
+
+
+    var lis2 = document.getElementsByClassName("li2");
+    for (var i = 0; i < lis2.length; i++) {
+      (function (n) {
+        lis2[i].onclick = function () {
+          window.location ='/delete/'+ this.getAttribute("data-id")
+        }
+      })(i)
+    }
+  </script>
+</body>
+
 </html>

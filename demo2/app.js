@@ -10,28 +10,36 @@ const bodyParser = require('body-parser')
 app.use(express.static(path.join(__dirname, 'public')));
 app.engine('html', require('express-art-template'))
 app.set('views', path.join(__dirname, './public')) 
-
+app.set('view engine', 'html');
 app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json());
 
-
-app.get('/all',async(req,res)=>{
+app.get('/admin',async(req,res)=>{
     LibraryTest.find({},async(err,docs)=>{
-        console.log(docs);
-        res.render('index.html',docs)
+        res.render('index.html',{docs})
+        console.log(docs)
     })
-
 })
+app.get('/uphtml/:id',async(req,res)=>{
+    var id =req.params.id;
+    LibraryTest.find({_id:id},async(err,docs)=>{
+        res.render('uphtml.html',{id})
+    })
+})
+
+
 // 添加
 app.get('/add', async(req,res)=>{
-    // res.send("www")
+    console.log(req)
     const a1 = new LibraryTest({
-        bookeName:"22244",
-        author:"yinpsseng",
-        publicationDate:"2019-02-01",
+        bookeName:req.query.bookeName,
+        author:req.query.auther,
+        publicationDate:req.query.publicationDate,
         lend:false,
     })
-    a1.save( res => console.log(res))
+    a1.save()
 })
+
 // 查找
 app.get('/find',async(req,res)=>{
     LibraryTest.find({bookeName:'222'},function(err,docs){
@@ -42,15 +50,20 @@ app.get('/find',async(req,res)=>{
 
 //更新
 app.get('/updata',async(req,res)=>{
-    LibraryTest.find({bookeName:'222'},function(err,docs){
-        docs[0].author = 'ylsd',
+    var id = req.query.id;
+    LibraryTest.find({_id:id},function(err,docs){
+        console.log(docs)
+        docs[0].author = req.query.author,
+        docs[0].bookeName = req.query.bookName,
         docs[0].save()
     })
 })
 
 //删除
-app.get('/delete',async(req,res)=>{
-    LibraryTest.find({bookeName:'222'},function(err,docs){
+app.get('/delete/:id',async(req,res)=>{
+    var id =req.params.id;
+    console.log(id,"id")
+    LibraryTest.find({_id:id},function(err,docs){
         if(err) return;
         if(docs){
             docs.forEach(function(ele){
